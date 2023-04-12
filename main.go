@@ -2,6 +2,7 @@ package IncomingEvents
 
 import (
 	"errors"
+	"reflect"
 	"strings"
 	"sync"
 )
@@ -80,7 +81,7 @@ func (ie *IncomingEvents) RemoveHandler(criteria RoutingCriteria, handler EventH
     }
 
     for i, h := range handlers {
-        if h == handler {
+        if reflect.ValueOf(h).Pointer() == reflect.ValueOf(handler).Pointer() {
             handlers = append(handlers[:i], handlers[i+1:]...)
             ie.handlers[criteria] = handlers
             return nil
