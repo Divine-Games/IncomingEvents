@@ -60,12 +60,25 @@ func (ie *IncomingEvents) triggerHandlers(criteria RoutingCriteria, event Event)
         return errors.New("no handlers registered for criteria")
     }
 
+    // Create a buffered channel to send events to the handlers
+    eventChan := make(chan Event, len(handlers))
+
+    // Send events to the channel
     for _, handler := range handlers {
-        go handler(event)
+        go func(h EventHandler) {
+            eventChan <- event
+        }(handler)
+    }
+
+    // Receive events from the channel and call the handlers
+    for i := 0; i < len(handlers); i++ {
+        handler := <-eventChan
+        handler(event)
     }
 
     return nil
 }
+
 
 func (ie *IncomingEvents) RemoveHandler(criteria RoutingCriteria, handler EventHandler) error {
     ie.lock.Lock()
