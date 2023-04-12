@@ -1,12 +1,3 @@
-how do you fix this error in the code
-
-panic: runtime error: invalid memory address or nil pointer dereference
-[signal 0xc0000005 code=0x0 addr=0x28 pc=0xf809c2]
-
-goroutine 1 [running]:
-github.com/Divine-Games/IncomingEvents.(*IncomingEvents).ParseEvent(0xc00006e3c0, {0xfa3e05, 0xef5ab9}, 0x0)
-        E:/Gaea/Golang/pkg/mod/github.com/!divine-!games/!incoming!events@v0.0.3/main.go:127 +0x3e2
-
 package IncomingEvents
 
 import (
